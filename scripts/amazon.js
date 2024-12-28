@@ -1,3 +1,6 @@
+import { cart } from '../data/cart.js'
+// renaming { cart as myCart}
+
 const productsSection = document.querySelector("#products-section")
 
 products.forEach(product => {
@@ -76,9 +79,8 @@ document.querySelectorAll('.js-add-cart').forEach(btn => {
         cart.forEach(product => {
             cartQuantity += product.quantity
         })
-        
-        document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity
 
+        document.querySelector('.js-cart-quantity')
+            .innerHTML = cartQuantity
     })
 })
