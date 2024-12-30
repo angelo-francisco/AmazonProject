@@ -21,3 +21,16 @@ export function addToCart(productId, quantity = 1) {
     localStorage.setItem('cart', JSON.stringify(cart))
 }
 
+
+export function removeFromCart(productId) {
+    let productPosition;
+
+    cart.forEach((product, position) => {
+        if (productId === product.id) {
+            productPosition = position
+        }
+    });
+
+    cart.splice(productPosition, 1)   
+}
+
