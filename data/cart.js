@@ -1,6 +1,6 @@
-export const cart = []
+export const cart = JSON.parse(localStorage.getItem('cart')) || []
 
-export function addToCart(productId) {
+export function addToCart(productId, quantity = 1) {
     let matchingProduct
 
     cart.forEach(cartProduct => {
@@ -10,12 +10,14 @@ export function addToCart(productId) {
     })
 
     if (matchingProduct) {
-        matchingProduct.quantity += 1
+        matchingProduct.quantity += quantity
     } else {
         cart.push({
             id: productId,
-            quantity: 1
+            quantity: quantity
         })
     }
+
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
 
