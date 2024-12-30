@@ -10,8 +10,8 @@ updateCartQuantity()
 const productsSection = document.querySelector("#products-section")
 
 products.forEach(product => {
-    productsSection.innerHTML +=
-        `<div class="product-container">
+  productsSection.innerHTML +=
+    `<div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
         </div>
@@ -61,31 +61,31 @@ products.forEach(product => {
 })
 
 function updateCartQuantity() {
-    let cartQuantity = 0
+  let cartQuantity = 0
 
-    cart.forEach(cartProduct => {
-        cartQuantity += cartProduct.quantity
-    })
+  cart.forEach(cartProduct => {
+    cartQuantity += cartProduct.quantity
+  })
 
-    document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity
+  document.querySelector('.js-cart-quantity')
+    .innerHTML = cartQuantity
 }
 
 
 document.querySelectorAll('.js-add-cart').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const productId = btn.dataset.productId
-        const quantity = parseInt(document.querySelector(`.select-${productId}`).value)
+  btn.addEventListener('click', () => {
+    const productId = btn.dataset.productId
+    const quantity = parseInt(document.querySelector(`.select-${productId}`).value)
 
-        addToCart(productId, quantity)
-        updateCartQuantity()
+    addToCart(productId, quantity)
+    updateCartQuantity()
 
-        const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`)
-        addedToCart.style.opacity = "1"
-            
-        setTimeout(() => {
-            addedToCart.style.opacity = "0"
-        }, 1500);
-        
-    })
+    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`)
+    addedToCart.style.opacity = "1"
+
+    setTimeout(() => {
+      addedToCart.style.opacity = "0"
+    }, 1500);
+
+  })
 })
