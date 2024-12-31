@@ -22,11 +22,11 @@ export function addToCart(productId, quantity = 1) {
         cart.push({
             id: productId,
             quantity: quantity,
-            delivery: '1'
+            delivery: "1"
         })
     }
-
-
+    console.log(cart)
+    
     saveToStorange()
 }
 
@@ -41,6 +41,19 @@ export function removeFromCart(productId) {
     });
 
     cart = newCart
+
+    saveToStorange()
+}
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+    let matchingProduct
+
+    cart.forEach(product => {
+        if (product.id === productId) {
+            matchingProduct = product
+        }
+    })
+    matchingProduct.delivery = deliveryOptionId
 
     saveToStorange()
 }

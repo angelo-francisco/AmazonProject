@@ -1,8 +1,9 @@
-import { cart, removeFromCart, saveToStorange } from '../data/cart.js'
+import { cart, removeFromCart, saveToStorange, updateDeliveryOption } from '../data/cart.js'
 import { delivery } from '../data/delivery.js'
 import { products } from '../data/products.js'
+import { dateFormated } from './utils/date.js'
 import { showPriceProduct } from './utils/money.js'
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
+
 
 updateCartItems()
 
@@ -16,7 +17,6 @@ function updateCartItems() {
 
 cart.forEach(cartItem => {
     let matchingProduct
-    let deliveryOption;
 
     products.forEach(product => {
         if (product.id === cartItem.id) {
@@ -25,7 +25,7 @@ cart.forEach(cartItem => {
     })
 
     const deliveryOptionId = cartItem.delivery
-    console.log(deliveryOptionId)
+    let deliveryOption
 
     delivery.forEach(option => {
         if (option.id === deliveryOptionId) {
@@ -33,14 +33,10 @@ cart.forEach(cartItem => {
         }
     })
 
-    const today = dayjs()
-    const deliveryDate = today.add(deliveryOption.days, 'days')
-    const dateString = deliveryDate.format('dddd, MMM D')
-
     productsHTML += `
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date">
-            Delivery date: ${dateString}
+            Delivery date: <span class="js-delivery-date">${dateFormated(deliveryOption.days)}</span>
         </div>
 
         <div class="cart-item-details-grid">
@@ -95,16 +91,12 @@ function updateDeliveryOptionsHTML(matchingProduct, cartItem) {
     let html = '';
 
     delivery.forEach(options => {
-        const today = dayjs()
-        const deliveryDate = today.add(options.days, 'days')
-        const dateString = deliveryDate.format('dddd, MMM D')
+        const dateString = dateFormated(options.days)
 
         const isChecked = options.id === cartItem.delivery
 
-        console.log(isChecked)
-
         html += `
-        <div class="delivery-option">
+        <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${options.id}" onclick="this.querySelector('input').checked = true">
             <input type="radio" class="delivery-option-input" ${isChecked ? 'checked' : ''} name="delivery-option-${matchingProduct.id}">
             <div>
                 <div class="delivery-option-date">
@@ -179,5 +171,26 @@ document.querySelectorAll('.js-update-quantity-link')
                     }
 
                 })
+        })
+    })
+
+document.querySelectorAll('.js-delivery-option')
+    .forEach(option => {
+        option.addEventListener('click', () => {
+            const { productId, deliveryOptionId } = option.dataset
+            
+            updateDeliveryOption(productId, deliveryOptionId)
+
+            let days;
+
+            delivery.forEach(option => {
+                if (option.id === deliveryOptionId) {
+                    days = option.days
+                }
+            })
+
+            document.querySelector(`.js-cart-item-container-${productId}`)
+                .querySelector('.js-delivery-date')
+                .innerText = dateFormated(days)
         })
     })
