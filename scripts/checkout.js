@@ -2,6 +2,7 @@ import { cart, removeFromCart, saveToStorange } from '../data/cart.js'
 import { products } from '../data/products.js'
 import { showPriceProduct } from './utils/money.js'
 
+hello()
 
 updateCartItems()
 
@@ -128,7 +129,7 @@ document.querySelectorAll('.js-update-quantity-link')
 
             const updateQuantity = document.querySelector(`.js-update-product-quantity-${productIdUpdate}`)
             updateQuantity.style.display = 'block'
-
+ 
 
             updateQuantity.querySelector('span')
                 .addEventListener('click', () => {
