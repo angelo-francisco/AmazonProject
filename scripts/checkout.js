@@ -4,7 +4,7 @@ import { products } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
 import { showPriceProduct } from './utils/money.js'
 
-
+renderPaymentSummary()
 updateCartItems()
 
 let productsHTML = ''
@@ -82,11 +82,6 @@ cart.forEach(cartItem => {
 document.querySelector('.js-order-summary')
     .innerHTML = productsHTML
 
-
-// function updateDeliveryOption() {
-
-// }
-
 function updateDeliveryOptionsHTML(matchingProduct, cartItem) {
     let html = '';
 
@@ -103,7 +98,7 @@ function updateDeliveryOptionsHTML(matchingProduct, cartItem) {
                     ${dateString}
                 </div>
                 <div class="delivery-option-price">
-                    ${options.priceCents === 0 ? 'FREE' : '$' + options.priceCents.toFixed(2)} - Shipping
+                    ${options.priceCents === 0 ? 'FREE' : '$' + (options.priceCents / 100).toFixed(2)} - Shipping
                 </div>
             </div>
         </div>`
@@ -162,12 +157,15 @@ document.querySelectorAll('.js-update-quantity-link')
 
                         deleteButton.style.display = ''
                         linkUpdate.style.display = ''
+
                         saveToStorange()
 
                         document.querySelector(`.js-cart-item-container-${productIdUpdate} span.quantity-label`)
                             .innerText = newQuantity
 
                         updateQuantity.style.display = 'none'
+
+                        renderPaymentSummary()
                     }
 
                 })
@@ -178,8 +176,9 @@ document.querySelectorAll('.js-delivery-option')
     .forEach(option => {
         option.addEventListener('click', () => {
             const { productId, deliveryOptionId } = option.dataset
-            
+
             updateDeliveryOption(productId, deliveryOptionId)
+            renderPaymentSummary()
 
             let days;
 
@@ -194,3 +193,64 @@ document.querySelectorAll('.js-delivery-option')
                 .innerText = dateFormated(days)
         })
     })
+
+function getPrice(productId) {
+    let price
+
+    products.forEach(product => {
+        if (product.id === productId) {
+            price = product.priceCents
+        }
+    })
+
+    return price
+}
+
+function getDeliveryOption(deliveryId) {
+    let deliveryOption
+
+    delivery.forEach(option => {
+        if (option.id === deliveryId) {
+            deliveryOption = option
+        }
+    })
+
+    return deliveryOption || delivery[0]
+}
+
+function centsToNormal(priceCents) { return priceCents / 100 }
+
+function renderPaymentSummary() {
+    let total = 0
+    let shipping = 0
+
+    cart.forEach(cartItem => {
+        total += getPrice(cartItem.id) * cartItem.quantity
+
+        const priceDeliveryOption = getDeliveryOption(cartItem.delivery).priceCents
+        shipping += priceDeliveryOption
+    })
+
+    const paymentSummaryLabel1 = document.querySelector(".payment-summary-row")
+    paymentSummaryLabel1.querySelector("span")
+        .innerText = cart.length ? cart.length : 0
+
+    paymentSummaryLabel1.querySelector(".payment-summary-money")
+        .innerText = `$${centsToNormal(total).toFixed(2)}`
+
+    document.querySelector(".payment-summary-money1")
+        .innerText = `$${centsToNormal(shipping).toFixed(2)}`
+
+    let priceBeforeTax = total + shipping
+    document.querySelector(".payment-summary-money2")
+        .innerText = `$${centsToNormal(priceBeforeTax).toFixed(2)}`
+
+    let tax = (total + shipping) * 0.1
+    document.querySelector(".payment-summary-money3")
+        .innerText = `$${centsToNormal(tax).toFixed(2)}`
+
+    let priceAfterTax = priceBeforeTax + tax
+    document.querySelector(".payment-summary-money4")
+        .innerText = `$${centsToNormal(priceAfterTax).toFixed(2)}`
+}
+
