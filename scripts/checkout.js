@@ -114,11 +114,12 @@ document.querySelectorAll('.js-delete-link')
             const productId = link.dataset.productId
 
             removeFromCart(productId)
-
+            
             document.querySelector(`.js-cart-item-container-${productId}`)
-                .remove()
-
+            .remove()
+            
             updateCartItems()
+            renderPaymentSummary()
         })
     })
 
