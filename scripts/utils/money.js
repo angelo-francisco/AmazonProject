@@ -1,1 +1,1 @@
-export const showPriceProduct = product => (product.priceCents / 100).toFixed(2)
+export const showPriceProduct = priceCents => (priceCents / 100).toFixed(2)
