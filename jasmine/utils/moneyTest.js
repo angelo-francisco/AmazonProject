@@ -1,4 +1,4 @@
-import { showPriceProduct } from '../scripts/utils/money.js'
+import { showPriceProduct } from '../../scripts/utils/money.js'
 
 describe('Test suite: show price product', () => {
     it("converts a normal cents to a real price", () => {

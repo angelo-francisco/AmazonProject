@@ -2,12 +2,16 @@ import { delivery } from "./delivery.js"
 
 export let cart = JSON.parse(localStorage.getItem('cart')) || []
 
+export const loadCart = () => {
+    cart = JSON.parse(localStorage.getItem('cart')) || []
+}
+
 export function saveToStorange() {
     localStorage.setItem('cart', JSON.stringify(cart))
     localStorage.setItem('delivery', JSON.stringify(delivery))
 }
 
-export function addToCart(productId, quantity = 1) {
+export function addToCart(productId, quantity=1) {
     let matchingProduct
 
     cart.forEach(cartProduct => {
@@ -25,7 +29,6 @@ export function addToCart(productId, quantity = 1) {
             delivery: "1"
         })
     }
-    console.log(cart)
     
     saveToStorange()
 }
