@@ -221,7 +221,7 @@ function getDeliveryOption(deliveryId) {
 
 function centsToNormal(priceCents) { return priceCents / 100 }
 
-function renderPaymentSummary() {
+export function renderPaymentSummary() {
     let total = 0
     let shipping = 0
 

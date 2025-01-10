@@ -1,4 +1,3 @@
-import { checkPrimeSync } from 'crypto';
 import { addToCart, cart, loadCart } from '../../data/cart.js'
 
 localStorage.clear()
@@ -24,7 +23,7 @@ describe('Test suite: Cart', () => {
     it('Adding elements an existing product in the cart', () => {
         spyOn(Storage.prototype, 'setItem')
 
-        spyOn(localStorage, 'getItem').and.callFake(() => {
+        spyOn(Storage.prototype, 'getItem').and.callFake(() => {
             return JSON.stringify([{
                 id: 'bc2847e9-5323-403f-b7cf-57fde044a955', 
                 quantity: 1,
@@ -33,8 +32,10 @@ describe('Test suite: Cart', () => {
         })
 
         loadCart()
-        
-        expect(cart[0].quantity).toEqual(1)
+
+        addToCart('bc2847e9-5323-403f-b7cf-57fde044a955')
+
+        expect(cart[0].quantity).toEqual(2)
     })
 
 })
