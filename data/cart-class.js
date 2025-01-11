@@ -1,21 +1,26 @@
 import { delivery } from "./delivery.js"
 
 class Cart {
+    cartItems // public property/atribute
+    #localStorageKeyCart // private atribute
+    #localStorageKeyDeliveryOption // private atribute
+
     constructor(localStorageKeyCart, localStorageKeyDeliveryOption) {
-        this.localStorageKeyCart = localStorageKeyCart
-        this.localStorageKeyDeliveryOption = localStorageKeyDeliveryOption
+        this.cartItems = undefined
+        this.#localStorageKeyCart = localStorageKeyCart
+        this.#localStorageKeyDeliveryOption = localStorageKeyDeliveryOption
 
-        this.loadCart()
-    }
+        this.#loadCart()
+    }   
 
-    loadCart() {
-        const savedCart = localStorage.getItem(this.localStorageKeyCart)
+    #loadCart() {
+        const savedCart = localStorage.getItem(this.#localStorageKeyCart)
         this.cartItems = savedCart === "undefined" ? [] : JSON.parse(savedCart)
     }
 
     saveToStorange() {
-        localStorage.setItem(this.localStorageKeyCart, JSON.stringify(this.cartItems))
-        localStorage.setItem(this.localStorageKeyDeliveryOption, JSON.stringify(delivery))
+        localStorage.setItem(this.#localStorageKeyCart, JSON.stringify(this.cartItems))
+        localStorage.setItem(this.#localStorageKeyDeliveryOption, JSON.stringify(delivery))
     }
 
     addToCart(productId, quantity = 1) {
@@ -68,23 +73,16 @@ class Cart {
     }
 }
 
-const cart = new Cart()
+const cart = new Cart('cart-oop', 'delivery-oop')
 
-cart.localStorageKeyCart = 'cart-oop'
-cart.localStorageKeyDeliveryOption = 'delivery-oop'
-
-const bussinessCart = new Cart()
-
-bussinessCart.localStorageKeyCart = 'bussiness-cart-oop'
-bussinessCart.localStorageKeyDeliveryOption = 'bussiness-delivery-oop'
-
+const bussinessCart = new Cart('bussiness-cart-oop', 'bussiness-delivery-oop')
 
 cart.addToCart('aaa65ef3-8d6f-4eb3-bc9b-a6ea49047d8f')
 
 bussinessCart.addToCart('36c64692-677f-4f58-b5ec-0dc2cf109e27')
 
 console.log(cart, bussinessCart)
-
+// console.log(bussinessCart.#localStorageKeyCart) -> generated an error, because the property is private
 
 // Verification of the instance
 console.log(bussinessCart instanceof Cart)
