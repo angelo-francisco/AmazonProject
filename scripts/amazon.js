@@ -1,9 +1,5 @@
 import { cart, addToCart } from '../data/cart.js'
-import { products } from '../data/products.js'
-import { showPriceProduct } from './utils/money.js'
-
-// renaming { cart as myCart}
-
+import { products, Clothing } from '../data/products.js'
 
 updateCartQuantity()
 
@@ -44,8 +40,9 @@ products.forEach(product => {
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-        </div>
-
+          </div>
+          ${product.extraInfo()}
+        
         <div class="product-spacer"></div>
 
         <div class="added-to-cart js-added-to-cart-${product.id}">

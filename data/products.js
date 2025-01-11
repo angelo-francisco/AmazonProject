@@ -21,9 +21,24 @@ class Product {
 
   getPrice() {
     return (Math.round(this.priceCents) / 100).toFixed(2)
-  }  
+  }
+
+  extraInfo() { return '' }
 }
 
+// inheritance with 'extends <super class>'
+export class Clothing extends Product {
+  constructor(productDetails) {
+    super(productDetails)
+
+    this.sizeChartLink = productDetails.sizeChartLink
+  }
+
+  // overriding
+  extraInfo() {
+    return `<a href="${this.sizeChartLink}" target="_blank">Size Chart</a>`
+  }
+}
 
 export const products = [
   {
@@ -685,5 +700,5 @@ export const products = [
     ]
   }
 ].map((details) => {
-  return new Product(details)
+  return details.type && details.type === 'clothing' ? new Clothing(details) : new Product(details)
 })
