@@ -702,3 +702,16 @@ export const products = [
 ].map((details) => {
   return details.type && details.type === 'clothing' ? new Clothing(details) : new Product(details)
 })
+
+
+// const date = new Date()
+
+// console.log(date.toLocaleDateString())
+
+// changing this to whatever we want
+function logThis() {
+  console.log(this)
+}
+
+logThis()
+logThis.call('Changing this')
