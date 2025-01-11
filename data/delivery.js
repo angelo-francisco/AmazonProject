@@ -15,5 +15,3 @@ export let delivery = [
         priceCents: 999
     }
 ]
-
-// JSON.parse(localStorage.getItem('cart')) ||
