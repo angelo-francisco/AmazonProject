@@ -1,13 +1,16 @@
 import { cart, addToCart } from '../data/cart.js'
-import { products, Clothing } from '../data/products.js'
+import { products, loadProducts } from '../data/products.js'
 
+loadProducts(renderProducts)
 updateCartQuantity()
 
-const productsSection = document.querySelector("#products-section")
+function renderProducts() {
 
-products.forEach(product => {
-  productsSection.innerHTML +=
-    `<div class="product-container">
+  const productsSection = document.querySelector("#products-section")
+
+  products.forEach(product => {
+    productsSection.innerHTML +=
+      `<div class="product-container">
         <div class="product-image-container">
           <img class="product-image" src="${product.image}">
         </div>
@@ -55,7 +58,8 @@ products.forEach(product => {
         </button>
       </div>
     `
-})
+  })
+}
 
 function updateCartQuantity() {
   let cartQuantity = 0
