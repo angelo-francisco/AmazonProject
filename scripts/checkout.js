@@ -2,7 +2,7 @@ import { cart, removeFromCart, saveToStorange, updateDeliveryOption } from '../d
 import { delivery } from '../data/delivery.js'
 import { products } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
-import { showPriceProduct } from './utils/money.js'
+import '../data/backend-practice.js'
 
 renderPaymentSummary()
 updateCartItems()

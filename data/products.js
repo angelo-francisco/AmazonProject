@@ -709,9 +709,9 @@ export const products = [
 // console.log(date.toLocaleDateString())
 
 // changing this to whatever we want
-function logThis() {
-  console.log(this)
-}
+// function logThis() {
+//   console.log(this)
+// }
 
-logThis()
-logThis.call('Changing this')
+// logThis()
+// logThis.call('Changing this')
