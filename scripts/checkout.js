@@ -4,7 +4,16 @@ import { products, loadProducts } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
 import '../data/backend-practice.js'
 
-loadProducts(renderCheckoutPage)
+// loadProducts(renderCheckoutPage)
+
+new Promise((resolve) => {
+    loadProducts(() => {
+        resolve()
+    })
+}).then(() => {
+    renderCheckoutPage()
+})
+
 
 function renderCheckoutPage() {
     renderPaymentSummary()
@@ -257,5 +266,4 @@ function renderCheckoutPage() {
         document.querySelector(".payment-summary-money4")
             .innerText = `$${centsToNormal(priceAfterTax).toFixed(2)}`
     }
-
 }
