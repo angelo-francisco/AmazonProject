@@ -51,11 +51,12 @@ export function loadProductsFetch() {
     products = data.map((details) => {
       return details.type && details.type === 'clothing' ? new Clothing(details) : new Product(details)
     })
-  })
+  })/*.catch(error => {
+    console.log("Error loading products")
+  })*/
   return promise
 }
 
-console.log(products)
 
 export function loadProducts(func) {
   const xhr = new XMLHttpRequest()

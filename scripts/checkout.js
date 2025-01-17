@@ -4,9 +4,28 @@ import { products, loadProductsFetch } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
 import '../data/backend-practice.js'
 
-loadProductsFetch().then(() => {
-    renderCheckoutPage()
-})
+
+async function loadPage() {
+    try {
+
+        await loadProductsFetch()
+        // use reject for creating errors asynchroniusly
+        await new Promise((resolve) => {
+            if (!(products.length == 0)) {
+                renderCheckoutPage(() => {
+                    resolve()
+                })
+            } else {
+                throw new Error("Products wasn't loaded")
+            }
+        })
+    } catch (error) {
+        console.log("Error! " + error.message)
+    }
+
+}
+
+loadPage()
 
 
 function renderCheckoutPage() {
