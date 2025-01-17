@@ -1,16 +1,10 @@
 import { cart, removeFromCart, saveToStorange, updateDeliveryOption } from '../data/cart.js'
 import { delivery } from '../data/delivery.js'
-import { products, loadProducts } from '../data/products.js'
+import { products, loadProductsFetch } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
 import '../data/backend-practice.js'
 
-// loadProducts(renderCheckoutPage)
-
-new Promise((resolve) => {
-    loadProducts(() => {
-        resolve()
-    })
-}).then(() => {
+loadProductsFetch().then(() => {
     renderCheckoutPage()
 })
 
