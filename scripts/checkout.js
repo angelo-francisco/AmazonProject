@@ -2,6 +2,7 @@ import { cart, removeFromCart, saveToStorange, updateDeliveryOption } from '../d
 import { delivery } from '../data/delivery.js'
 import { products, loadProductsFetch } from '../data/products.js'
 import { dateFormated } from './utils/date.js'
+import { addOrder } from '../data/orders.js'
 import '../data/backend-practice.js'
 
 
@@ -44,7 +45,7 @@ function renderCheckoutPage() {
         let matchingProduct
 
         products.forEach(product => {
-            if (product.id === cartItem.id) {
+            if (product.id === cartItem.productId) {
                 matchingProduct = product
             }
         })
@@ -176,7 +177,7 @@ function renderCheckoutPage() {
                             inputQuantity.style.border = '3px solid red'
                         } else {
                             cart.forEach(product => {
-                                if (product.id === productIdUpdate) {
+                                if (product.productId === productIdUpdate) {
                                     product.quantity = newQuantity
                                 }
                             })
@@ -251,7 +252,7 @@ function renderCheckoutPage() {
         let shipping = 0
 
         cart.forEach(cartItem => {
-            total += getPrice(cartItem.id) * cartItem.quantity
+            total += getPrice(cartItem.productId) * cartItem.quantity
 
             const priceDeliveryOption = getDeliveryOption(cartItem.delivery).priceCents
             shipping += priceDeliveryOption
@@ -279,4 +280,26 @@ function renderCheckoutPage() {
         document.querySelector(".payment-summary-money4")
             .innerText = `$${centsToNormal(priceAfterTax).toFixed(2)}`
     }
+
+    document.querySelector('.js-place-order')
+        .addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://supersimplebackend.dev/orders', {
+                    'method': 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cart: cart
+                    })
+                })
+
+                const order = await response.json()
+                addOrder(order)
+            } catch (error) {
+                console.log("Error adding order")
+            }
+
+            window.location.href = 'orders.html'
+        })
 }

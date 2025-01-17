@@ -4,6 +4,7 @@ import { products, loadProducts } from '../data/products.js'
 loadProducts(renderProducts)
 updateCartQuantity()
 
+
 function renderProducts() {
 
   const productsSection = document.querySelector("#products-section")
@@ -59,6 +60,24 @@ function renderProducts() {
       </div>
     `
   })
+
+  document.querySelectorAll('.js-add-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const productId = btn.dataset.productId
+      const quantity = parseInt(document.querySelector(`.select-${productId}`).value)
+
+      addToCart(productId, quantity)
+      updateCartQuantity()
+
+      const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`)
+      addedToCart.style.opacity = "1"
+
+      setTimeout(() => {
+        addedToCart.style.opacity = "0"
+      }, 1500);
+
+    })
+  })
 }
 
 function updateCartQuantity() {
@@ -71,22 +90,3 @@ function updateCartQuantity() {
   document.querySelector('.js-cart-quantity')
     .innerHTML = cartQuantity
 }
-
-
-document.querySelectorAll('.js-add-cart').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const productId = btn.dataset.productId
-    const quantity = parseInt(document.querySelector(`.select-${productId}`).value)
-
-    addToCart(productId, quantity)
-    updateCartQuantity()
-
-    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`)
-    addedToCart.style.opacity = "1"
-
-    setTimeout(() => {
-      addedToCart.style.opacity = "0"
-    }, 1500);
-
-  })
-})

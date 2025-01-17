@@ -15,7 +15,7 @@ export function addToCart(productId, quantity=1) {
     let matchingProduct
 
     cart.forEach(cartProduct => {
-        if (cartProduct.id === productId) {
+        if (cartProduct.productId === productId) {
             matchingProduct = cartProduct
         }
     })
@@ -24,7 +24,7 @@ export function addToCart(productId, quantity=1) {
         matchingProduct.quantity += quantity
     } else {
         cart.push({
-            id: productId,
+            productId: productId,
             quantity: quantity,
             delivery: "1"
         })
@@ -38,7 +38,7 @@ export function removeFromCart(productId) {
     let newCart = []
 
     cart.forEach(product => {
-        if (productId !== product.id) {
+        if (productId !== product.productId) {
             newCart.push(product)
         }
     });
@@ -52,10 +52,11 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
     let matchingProduct
 
     cart.forEach(product => {
-        if (product.id === productId) {
+        if (product.productId === productId) {
             matchingProduct = product
         }
     })
+
     matchingProduct.delivery = deliveryOptionId
 
     saveToStorange()
